@@ -226,3 +226,6 @@ KNN berada di posisi terakhir, dengan skor precision (0.7710) dan f1-score (0.79
 
 ## **Kesimpulan**
 Berdasarkan evaluasi menyeluruh, model **XGBoost menjadi pilihan terbaik** untuk klasifikasi akun bot dan user, mengingat kemampuannya dalam mencapai keseimbangan antara akurasi tinggi dan generalisasi yang baik.
+
+## **Referensi**
+Deshmukh, R. (2021). Performance comparison for spam detection in social media using deep learning algorithms. Turkish Journal of Computer and Mathematics Education, 12(1S), 193–201.
