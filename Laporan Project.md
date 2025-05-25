@@ -74,19 +74,19 @@ Sementara itu, untuk fitur kategorik seperti city, terdapat 362 nilai unik. Kota
 Univariate analysis bertujuan untuk memahami distribusi data dari satu fitur secara individual, sedangkan multivariate analysis digunakan untuk mengidentifikasi pola dan hubungan antar dua atau lebih fitur dalam dataset.
 
 Pada project ini, analisis univariat menghasilkan visualisasi distribusi data seperti ditunjukkan pada gambar berikut :  
-![Distribusi Univariate](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/distribusi%20univariate.png)
+![Distribusi Univariate](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/distribusi%20univariate.png)
 Beberapa fitur terlihat didominasi oleh satu nilai. Sebagai contoh, fitur has_domain dan has_last_name mayoritas bernilai 1. Selain itu, distribusi pada fitur subscribers_count menunjukkan pola right-skewed, yang mengindikasikan adanya outlier dengan nilai yang jauh lebih besar dari mayoritas data.
 
 Analisis univariat juga diterapkan pada fitur target, dengan hasil sebagai berikut :
-![Distribusi Target](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/distribusi%20target.png)
+![Distribusi Target](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/distribusi%20target.png)
 Dari grafik tersebut terlihat bahwa terdapat class imbalance pada fitur target, di mana mayoritas data memiliki nilai 0 (bukan bot), menunjukkan ketidakseimbangan kelas yang cukup signifikan.
 
 Sementara itu, analisis multivariat memberikan hasil berupa heatmap korelasi antar fitur :
-![Heatmap](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/heatmap.png)
+![Heatmap](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/heatmap.png)
 Beberapa pasangan fitur yang memiliki korelasi yang cukup tinggi, seperti has_occupation dan occupation_type_university dengan korelasi sebesar 0,89 (89%). Namun demikian, tidak terdapat fitur yang menunjukkan korelasi kuat terhadap fitur target.
     
 Selain itu, multivariat analisis juga mengeksplorasi hubungan antara fitur numerik dan fitur target, seperti ditunjukkan pada visualisasi berikut:
-![Fitur vs Target](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/fitur%20vs%20target.png)
+![Fitur vs Target](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/fitur%20vs%20target.png)
 Dari grafik tersebut terlihat bahwa akun dengan subscribers_count yang lebih tinggi cenderung merupakan akun asli (target = 0). Sementara itu, untuk fitur lainnya tidak ditemukan pola yang signifikan terhadap nilai target.
 
 ## **Data Preparation**
@@ -108,20 +108,11 @@ Transformasi dilakukan pada fitur numerik untuk menyesuaikan skala dan distribus
 
 Dalam project ini, digunakan metode StandardScaler untuk melakukan standarisasi, yaitu mengubah data sehingga memiliki mean = 0 dan standar deviasi = 1.
 ## **Modeling**
-Tahap ini bertujuan untuk membangun dan melatih model klasifikasi guna membedakan antara akun bot dan akun user berdasarkan fitur-fitur profil serta aktivitas pengguna. Tahapan proses pemodelan dimulai dengan inisialisasi model, pelatihan model / train model, predict model, dan evaluasi model.
+Tahap ini bertujuan untuk membangun dan melatih model klasifikasi guna membedakan antara akun bot dan akun user berdasarkan fitur-fitur profil serta aktivitas pengguna. Tahapan proses pemodelan dimulai dengan inisialisasi model, pelatihan model / train model, predict model, dan evaluasi model. Pada project ini, digunakan tiga algoritma yaitu Random Forest, XGBoost, dan K-Nearest Neighbors (KNN).
 
-Tiga algoritma yang digunakan dalam proyek ini adalah Random Forest, XGBoost, dan K-Nearest Neighbors (KNN). Ketiga model dilatih menggunakan parameter default sebagai berikut:
-```
-rf = RandomForestClassifier()
-xgb = XGBClassifier()
-knn = KNeighborsClassifier(n_neighbors=5)
-```
-Evaluasi performa model dilakukan menggunakan lima metrik yaitu accuracy, precision, recall, F1-score, dan ROC-AUC, dengan hasil sebagai berikut :
-![Evaluasi 1](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/Screenshot%202025-05-24%20113708.png)
-Berdasarkan hasil evaluasi tersebut, model XGBoost menunjukkan performa terbaik secara konsisten di hampir semua metrik, diikuti oleh Random Forest, dan terakhir KNN.
-
-### Kelebihan dan Kekurangan Masing-Masing Algoritma:
+### Penjelasan Algoritma
 #### *Random Forest*
+Random Forest merupakan algoritma ensemble learning berbasis pohon keputusan yang membangun banyak pohon keputusan secara acak, lalu menggabungkan prediksi dari seluruh pohon untuk menentukan output akhir. Hal ini membantu mengurangi overfitting dan meningkatkan akurasi model. Berikut adalah kelebihan dan kekurangan dari algoritma Random Forest :
 ✅ Kelebihan:
 - Tahan terhadap overfitting karena menggunakan banyak pohon.
 - Dapat menangani data numerik dan kategorikal dengan baik.
@@ -132,6 +123,7 @@ Berdasarkan hasil evaluasi tersebut, model XGBoost menunjukkan performa terbaik 
 - Cenderung lebih lambat untuk prediksi dibanding model sederhana.
 
 #### *XGBoost*
+XGBoost (Extreme Gradient Boosting) merupakan algoritma boosting yang sangat efisien dan populer untuk tugas klasifikasi. Model dibangun secara bertahap dengan cara meminimalkan kesalahan residu dari model sebelumnya. Berikut adalah kelebihan dan kekurangan dari algoritma XGBoost :
 ✅ Kelebihan:
 - Performa tinggi dan efisien, terutama pada data tabular.
 - Mampu menangani missing value secara internal.
@@ -142,6 +134,7 @@ Berdasarkan hasil evaluasi tersebut, model XGBoost menunjukkan performa terbaik 
 - Proses training lebih kompleks dibanding Random Forest.
 
 #### *K-Nearest Neighbors (KNN)*
+KNN adalah algoritma instance-based learning yang mengklasifikasikan data baru berdasarkan mayoritas kelas dari tetangga terdekatnya di ruang fitur. Algoritma ini tidak membangun model eksplisit, melainkan menyimpan semua data pelatihan. Berikut adalah kelebihan dan kekurangan algoritma KNN :
 ✅ Kelebihan:
 - Algoritma sederhana dan mudah diimplementasikan.
 - Tidak membutuhkan proses training (lazy learner).
@@ -151,13 +144,29 @@ Berdasarkan hasil evaluasi tersebut, model XGBoost menunjukkan performa terbaik 
 - Tidak cocok untuk dataset besar karena membutuhkan banyak waktu untuk prediksi.
 - Kinerja menurun jika fitur tidak ditransformasi dengan baik.
 
+### *Model Development*
+Ketiga model dilatih menggunakan parameter default/bawaan sebagai berikut:
+```
+rf = RandomForestClassifier()
+xgb = XGBClassifier()
+knn = KNeighborsClassifier(n_neighbors=5)
+```
+Evaluasi performa model dilakukan menggunakan lima metrik yaitu accuracy, precision, recall, F1-score, dan ROC-AUC, dengan hasil sebagai berikut :
+
+![Evaluasi 1](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/Screenshot%202025-05-24%20113708.png)
+
+Berdasarkan hasil evaluasi tersebut, model XGBoost menunjukkan performa terbaik secara konsisten di hampir semua metrik, diikuti oleh Random Forest, dan terakhir KNN.
 
 ### *Hyperparameter Tuning*
-Hyperparameter tuning dilakukan sebagai bagian dari proses model improvement, yaitu untuk meningkatkan kinerja model di atas baseline yang sebelumnya dibangun menggunakan parameter default. Hyperparameter adalah parameter yang ditetapkan sebelum proses pelatihan dimulai, dan memiliki pengaruh langsung terhadap kompleksitas model, performa prediksi, serta risiko overfitting atau underfitting.
+Hyperparameter tuning dilakukan untuk meningkatkan performa model dengan mencari kombinasi parameter terbaik menggunakan GridSearchCV dengan 5-fold cross-validation. Proses tuning ini difokuskan pada parameter-parameter yang paling memengaruhi kinerja masing-masing algoritma, dengan metrik utama F1-score.
 
-Pada tahap ini, dilakukan pencarian kombinasi hyperparameter terbaik menggunakan metode Grid Search, yang mengevaluasi seluruh kemungkinan kombinasi parameter pada ruang pencarian (search space) yang telah ditentukan. Proses ini dikombinasikan dengan teknik cross-validation dan selama proses validasi, skor evaluasi yang digunakan untuk memilih parameter terbaik adalah F1-score.
+Untuk Random Forest, dilakukan pencarian pada parameter ```n_estimators``` (jumlah pohon), ```max_depth``` (kedalaman maksimum pohon), dan ```min_samples_split``` (jumlah minimum sampel untuk membagi sebuah node). Kombinasi ini penting karena berhubungan langsung dengan kompleksitas dan generalisasi model.
 
-Berikut adalah ruang pencarian hyperparameter yang digunakan untuk masing-masing model:
+Sementara itu, pada XGBoost, tuning difokuskan pada ```n_estimators```, ```max_depth```, dan ```learning_rate```. Parameter ```learning_rate``` sangat krusial dalam algoritma boosting karena mengontrol seberapa besar kontribusi masing-masing pohon terhadap prediksi akhir — nilai yang lebih kecil cenderung menghasilkan model yang lebih stabil namun memerlukan lebih banyak iterasi.
+
+Untuk K-Nearest Neighbors, dilakukan tuning terhadap ```n_neighbors```, yaitu jumlah tetangga yang dipertimbangkan saat mengklasifikasikan titik baru, serta ```weights```, yang menentukan apakah semua tetangga memiliki bobot sama atau diberi bobot berdasarkan jaraknya (semakin dekat, semakin besar kontribusinya).
+
+Berikut parameter grid yang digunakan :
 ```
 param_grids = {
     'RandomForestClassifier': {
@@ -189,25 +198,25 @@ Tahap evaluasi bertujuan untuk mengukur dan membandingkan performa model klasifi
 #### 1. *Accuracy*
 Mengukur proporsi prediksi yang benar dibandingkan dengan total seluruh prediksi. Formula accuracy adalah sebagai berikut :
 
-![Accuracy Formula](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/accuracy%20formula.png)
+![Accuracy Formula](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/accuracy%20formula.png)
 
 Cocok digunakan ketika distribusi kelas seimbang, namun bisa menyesatkan pada dataset dengan class imbalance.
 #### 2. *Precision*
 Mengukur seberapa akurat model dalam memprediksi kelas positif (dalam kasus ini, akun bot). Formula precision adalah sebagai berikut :
 
-![Precision Formula](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/precision%20formula.png)
+![Precision Formula](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/precision%20formula.png)
 
 Tinggi jika model jarang salah memberi label positif. Penting saat false positive perlu diminimalkan.
 #### 3. *Recall*
 Mengukur kemampuan model dalam menemukan semua contoh kelas positif yang sebenarnya. Formula recall adalah sebagai berikut :
 
-![Recall Formula](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/recall%20formula.png)
+![Recall Formula](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/recall%20formula.png)
 
 Tinggi jika model jarang melewatkan akun bot. Penting saat false negative sangat merugikan.
 #### 4. *F1-Score*
 Merupakan rata-rata harmonis dari precision dan recall, yang memberikan keseimbangan antara keduanya. Formula f1-score adalah sebagai berikut :
 
-![F1-Score Formula](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/f1-score%20formula.png)
+![F1-Score Formula](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/f1-score%20formula.png)
 
 Cocok digunakan pada kasus class imbalance untuk mendapatkan gambaran performa model secara menyeluruh
 #### 5. ROC-AUC Score (Receiver Operating Characteristic - Area Under Curve)
@@ -216,8 +225,10 @@ Mengukur kemampuan model dalam membedakan antara kelas positif dan negatif pada 
 - AUC menunjukkan seberapa besar kemungkinan model memeringkat sampel positif lebih tinggi daripada negatif.
 
 ### *Model Evaluation*
-Setelah dilakukan hyperparameter tuning menggunakan GridSearchCV dengan metrik utama f1_score, ketiga model — Random Forest, XGBoost, dan K-Nearest Neighbors (KNN) — menunjukkan peningkatan performa.
-![Evaluasi Tuned](https://github.com/pichiboii/anayltics-predictive-bots-vs-users/blob/main/archive/Screenshot%202025-05-24%20115040.png)
+Setelah dilakukan hyperparameter tuning menggunakan GridSearchCV dengan metrik utama f1_score, ketiga model — Random Forest, XGBoost, dan K-Nearest Neighbors (KNN) — menunjukkan peningkatan performa seperti berikut :
+
+![Evaluasi Tuned](https://raw.githubusercontent.com/pichiboii/anayltics-predictive-bots-vs-users/main/archive/Screenshot%202025-05-24%20115040.png)
+
 XGBoost memperoleh skor tertinggi di semua metrik, terutama pada precision (0.9042), f1-score (0.9015), dan ROC AUC (0.9326). Ini menunjukkan bahwa XGBoost tidak hanya mampu mengklasifikasikan dengan akurasi tinggi, tetapi juga secara seimbang dalam mendeteksi bot dan user (precision vs recall).
 
 Random Forest memiliki performa yang sangat mirip dengan XGBoost, hanya sedikit lebih rendah terutama pada precision dan f1-score. Model ini tetap kompetitif dengan kelebihan berupa kestabilan dan interpretabilitas.
